@@ -1,15 +1,26 @@
 package com.example.littleprince.Fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.littleprince.BaseActivity;
+import com.example.littleprince.EditImageActivity;
 import com.example.littleprince.ImageList.ImageItem;
 import com.example.littleprince.R;
 import com.example.littleprince.ModuleConfig;
+import com.example.littleprince.utils.BitmapUtils;
+
+import java.io.File;
 
 
 /**
@@ -23,14 +34,14 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     public static final String TAG = MainMenuFragment.class.getName();
     private View mainView;
 //TODO
-//    private View stickerBtn;// 贴图按钮
-//    private View fliterBtn;// 滤镜按钮
+
     private View cropBtn;// 剪裁按钮
     private View rotateBtn;// 旋转按钮
     private View mTextBtn;//文字型贴图添加
     private View mPaintBtn;//编辑按钮
-    private View mFLoatImgBtn;//贴图按钮
+    private View mShareBtn;//贴图按钮
     protected static ImageItem selectImage;
+    protected SaveImageTask mySaveImageTask;
 
     public static MainMenuFragment newInstance(ImageItem img) {
         MainMenuFragment fragment = new MainMenuFragment();
@@ -64,7 +75,7 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
         rotateBtn = mainView.findViewById(R.id.btn_rotate);
         mTextBtn = mainView.findViewById(R.id.btn_text);
         mPaintBtn = mainView.findViewById(R.id.btn_paint);
-//        mFLoatImgBtn = mainView.findViewById(R.id.btn_floatImg);
+        mShareBtn = mainView.findViewById(R.id.btn_share);
 
 //        stickerBtn.setOnClickListener(this);
 //        fliterBtn.setOnClickListener(this);
@@ -72,7 +83,7 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
         rotateBtn.setOnClickListener(this);
         mTextBtn.setOnClickListener(this);
         mPaintBtn.setOnClickListener(this);
-//        mFLoatImgBtn.setOnClickListener(this);
+        mShareBtn.setOnClickListener(this);
     }
 
     @Override
@@ -96,9 +107,9 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
         } else if (v == mPaintBtn) {
             onPaintClick();
         }
-//        else if (v == mFLoatImgBtn) {
-//            onFloatImgClick();
-//        }
+        else if (v == mShareBtn) {
+            onShareClick();
+        }
 //        else if (v == fliterBtn) {
 //            onFilterClick();
 //        }
@@ -108,26 +119,7 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     }
 
 
-//TODO
-//    /**
-//     * 贴图模式
-//     *
-//     * @author panyi
-//     */
-//    private void onStickClick() {
-//        activity.bottomGallery.setCurrentItem(StickerFragment.INDEX);
-//        activity.mStickerFragment.onShow();
-//    }
 
-//    /**
-//     * 滤镜模式
-//     *
-//     * @author panyi
-//     */
-//    private void onFilterClick() {
-//        activity.bottomGallery.setCurrentItem(FilterListFragment.INDEX);
-//        activity.mFilterListFragment.onShow();
-//    }
 
     /**
      * 裁剪模式
@@ -168,13 +160,71 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     }
 
 
-//    private void onFloatImgClick(){
-//    //TODO  贴图响应
-//        Log.d("aasas",String.valueOf(selectImage));
-//        Log.d("aasas",String.valueOf(selectImage.getPath()));
-//        Log.d("wwwwwww",String.valueOf(getActivity()));
-//        ((BaseActivity) getActivity()).checkPermissionAndShow(selectImage);
-//
-//    }
+    private void onShareClick(){
+        String savePath=activity.saveFilePath;
+        if(activity.getmOpTimes()==0){
+            shareAction(savePath);
+        }else {
+            if (mySaveImageTask != null) {
+                mySaveImageTask.cancel(true);
+            }
+
+            mySaveImageTask = new SaveImageTask();
+            mySaveImageTask.execute(activity.getMainBitmap());
+            shareAction(savePath);
+
+        }
+
+    }
+    private void shareAction(String savePath){
+        Intent imageIntent = new Intent(Intent.ACTION_SEND);
+        imageIntent.setType("image/jpeg");
+        File f =new File(savePath);
+        imageIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+        startActivity(Intent.createChooser(imageIntent, "分享"));
+    }
+    //保存后不退出
+    private final class SaveImageTask extends AsyncTask<Bitmap, Void, Boolean> {
+        private Dialog dialog;
+
+        @Override
+        protected Boolean doInBackground(Bitmap... params) {
+            if (TextUtils.isEmpty(activity.saveFilePath))
+                return false;
+
+            return BitmapUtils.saveBitmap(params[0], activity.saveFilePath);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            dialog.dismiss();
+        }
+
+        @Override
+        protected void onCancelled(Boolean result) {
+            super.onCancelled(result);
+            dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = EditImageActivity.getLoadingDialog(activity.getmContext(), "图片保存中...", false);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            dialog.dismiss();
+
+            if (result) {
+                activity.resetOpTimes();
+            } else {
+                Toast.makeText(activity.getmContext(), "图片保存失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }//end inner class
 
 }// end class

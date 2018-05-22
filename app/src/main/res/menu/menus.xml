@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bucket_changing"
+        app:showAsAction="always"
+        app:actionProviderClass="com.example.littleprince.MyActionProvider"
+        android:icon="@mipmap/bucket"
+        android:title="bucket_changing"/>
+    <item
+        android:id="@+id/refresh"
+        app:showAsAction="always"
+        android:icon="@mipmap/refresh"
+        android:title="refresh"/>
+    <item
+        android:id="@+id/setting"
+        app:showAsAction="never"
+        android:title="设置"
+        android:icon="@mipmap/back_arrow"/>
+    <item
+        android:id="@+id/aboutme"
+        app:showAsAction="never"
+        android:title="关于"
+        android:icon="@mipmap/back_arrow"/>
+    <item
+        android:id="@+id/donate"
+        app:showAsAction="never"
+        android:title="捐助"
+        android:icon="@mipmap/back_arrow"/>
+</menu>

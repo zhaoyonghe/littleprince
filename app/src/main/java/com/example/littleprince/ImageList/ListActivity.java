@@ -26,11 +26,11 @@ import java.io.File;
 public class ListActivity extends BaseActivity {
 
 
-    private static Context listContext;
+    private static ListActivity listContext;
 
 
 
-    public static Context getListContext(){
+    public static ListActivity getListContext(){
         return listContext;
     }
 

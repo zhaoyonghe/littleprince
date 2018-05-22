@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,7 +83,7 @@ public class ImagesFragment extends Fragment {
          * 参数4：替换？
          * 参数5：结果排序（order by）
          */
-
+        Log.d("dididi",getActivity().toString());
         //权限
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 

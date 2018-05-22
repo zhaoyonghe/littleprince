@@ -80,6 +80,11 @@
         android:layout_below="@id/banner"
         android:background="#FFF">
 
+        <com.example.littleprince.Views.imagezoom.ImageViewTouch
+            android:id="@+id/main_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center" />
 
         <com.example.littleprince.Views.CropImageView
             android:id="@+id/crop_panel"
@@ -109,11 +114,6 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <com.example.littleprince.Views.imagezoom.ImageViewTouch
-            android:id="@+id/main_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center" />
     </FrameLayout>
 
 

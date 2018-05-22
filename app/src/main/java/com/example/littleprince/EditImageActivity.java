@@ -341,7 +341,7 @@ public class EditImageActivity extends BaseActivity {
         }
     }
 
-    protected void doSaveImage() {
+    public void doSaveImage() {
         if (mOpTimes <= 0)
             return;
 
@@ -444,6 +444,17 @@ public class EditImageActivity extends BaseActivity {
     }//end inner class
 
     public Bitmap getMainBit() {
+        return mainBitmap;
+    }
+
+    public int getmOpTimes(){
+        return mOpTimes;
+    }
+    public EditImageActivity getmContext(){
+        return mContext;
+    }
+
+    public Bitmap getMainBitmap(){
         return mainBitmap;
     }
 }

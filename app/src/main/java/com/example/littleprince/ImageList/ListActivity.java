@@ -14,10 +14,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.littleprince.AboutmeActivity;
 import com.example.littleprince.BaseActivity;
+import com.example.littleprince.DonateActivity;
 import com.example.littleprince.EditImageActivity;
 import com.example.littleprince.Notification.MyNotificationManager;
 import com.example.littleprince.R;
+import com.example.littleprince.SettingActivity;
 import com.example.littleprince.utils.FileUtils;
 
 import java.io.File;
@@ -87,10 +90,16 @@ public class ListActivity extends BaseActivity {
             case R.id.bucket_changing:
                 return true;
             case R.id.aboutme:
+                Intent intent1=new Intent(ListActivity.this, AboutmeActivity.class);
+                startActivity(intent1);
                 return true;
             case R.id.donate:
+                Intent intent2=new Intent(ListActivity.this, DonateActivity.class);
+                startActivity(intent2);
                 return true;
             case R.id.setting:
+                Intent intent3=new Intent(ListActivity.this, SettingActivity.class);
+                startActivity(intent3);
                 return true;
         }
         return super.onOptionsItemSelected(item);

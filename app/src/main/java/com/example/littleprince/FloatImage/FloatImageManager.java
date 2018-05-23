@@ -95,15 +95,17 @@ public class FloatImageManager {
      * 初始化悬浮图像的规格参数(测试版)
      * @return
      */
-    private FloatImageParams testinit(){
+    private FloatImageParams testinit(Context context){
         FloatImageParams floatImageParams=new FloatImageParams();
         floatImageParams.width=405;
         floatImageParams.height=607;
-        floatImageParams.x=675;
-        floatImageParams.y=719;
+        floatImageParams.x=675;//675
+        floatImageParams.y=719;//719
         floatImageParams.contentWidth=405;
-        floatImageParams.screenWidth=1080;
-        floatImageParams.screenHeight=1776;
+        //floatImageParams.screenWidth=1080;
+        //floatImageParams.screenHeight=1776;
+        floatImageParams.screenWidth=FloatImageUtil.getScreenWidth(context);
+        floatImageParams.screenHeight=FloatImageUtil.getScreenHeight(context);
         floatImageParams.statusBarHeight=0;
         floatImageParams.mMinWidth=405;
         floatImageParams.mMaxWidth=585;
@@ -114,6 +116,7 @@ public class FloatImageManager {
         return floatImageParams;
     }
 
+
     /**
      *
      * @param context
@@ -121,7 +124,7 @@ public class FloatImageManager {
     private void initFloatImage(Context context,ImageItem imageItem){
         //初始化悬浮图像的规格参数
         //
-        floatImageParams=testinit();
+        floatImageParams=testinit(context);
         floatImageParams.imagePath=imageItem.getPath();
         Uri uri=Uri.parse("file://"+floatImageParams.imagePath);
         Bitmap bp=null;
@@ -140,6 +143,15 @@ public class FloatImageManager {
         }
 
         floatImageParams.mRatio=(float)floatImageParams.height/floatImageParams.width;
+
+        if(floatImageParams.height*2>floatImageParams.screenHeight){
+            floatImageParams.height=floatImageParams.screenHeight/3;
+            floatImageParams.width=(int)(floatImageParams.height/floatImageParams.mRatio);
+        }
+        if (floatImageParams.width*2>floatImageParams.screenWidth){
+            floatImageParams.width=floatImageParams.screenWidth/3;
+            floatImageParams.height=(int)(floatImageParams.width*floatImageParams.mRatio);
+        }
         floatImageParams.mMinWidth=floatImageParams.width;
         floatImageParams.mMaxWidth=floatImageParams.mMinWidth*2;
         //

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DonateActivity" >
+    <FrameLayout
+        android:id="@+id/donate_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:background="#3F51B5">
+
+        <ImageView
+            android:id="@+id/donate_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="0dp"
+            android:src="@mipmap/back_arrow" />
+
+        <TextView
+            android:id="@+id/donate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="捐助"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/work_space"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/donate_banner"
+        android:background="#FFF"></FrameLayout>
+</RelativeLayout>

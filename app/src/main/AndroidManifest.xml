@@ -27,7 +27,15 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".EditImageActivity"
             android:theme="@style/NoTitleTheme">
-
+        </activity>
+        <activity android:name=".SettingActivity"
+            android:theme="@style/NoTitleTheme">
+        </activity>
+        <activity android:name=".AboutmeActivity"
+            android:theme="@style/NoTitleTheme">
+        </activity>
+        <activity android:name=".DonateActivity"
+            android:theme="@style/NoTitleTheme">
         </activity>
 
         <receiver

@@ -53,6 +53,13 @@
         android:background="@mipmap/ic_launcher"/>
 
     <Button
+        android:id="@+id/btn_capture"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="8dp"
+        android:background="@mipmap/yd_image_tx"/>
+
+    <Button
         android:id="@+id/btn_pre"
         android:layout_width="30dp"
         android:layout_height="30dp"

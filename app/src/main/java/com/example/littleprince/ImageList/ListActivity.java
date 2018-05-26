@@ -1,8 +1,12 @@
 package com.example.littleprince.ImageList;
 
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.projection.MediaProjectionManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,11 +20,13 @@ import android.widget.Toast;
 
 import com.example.littleprince.AboutmeActivity;
 import com.example.littleprince.BaseActivity;
+import com.example.littleprince.Capture.CaptureService;
 import com.example.littleprince.DonateActivity;
 import com.example.littleprince.EditImageActivity;
 import com.example.littleprince.Notification.MyNotificationManager;
 import com.example.littleprince.R;
 import com.example.littleprince.SettingActivity;
+import com.example.littleprince.ShotApplication;
 import com.example.littleprince.utils.FileUtils;
 
 import java.io.File;
@@ -38,7 +44,11 @@ public class ListActivity extends BaseActivity {
     private static ListActivity listContext;
     private static String curBucket;
 
-
+    private String TAG = "Service";
+    private int result = 0;
+    private Intent intent = null;
+    private int REQUEST_MEDIA_PROJECTION = 1;
+    private MediaProjectionManager mMediaProjectionManager;
 
     public static ListActivity getListContext(){
         return listContext;
@@ -69,10 +79,57 @@ public class ListActivity extends BaseActivity {
 
         transaction.commit();
 
+        //投屏权限
+        mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        startIntent();
+
+
+
         //通知栏
         MyNotificationManager.showChannel2CustomNotification(getApplicationContext());
 
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startIntent(){
+        if(intent != null && result != 0){
+            Log.i(TAG, "user agree the application to capture screen");
+            //Service1.mResultCode = resultCode;
+            //Service1.mResultData = data;
+            ((ShotApplication)getApplication()).setResult(result);
+            ((ShotApplication)getApplication()).setIntent(intent);
+            Intent intent = new Intent(getApplicationContext(), CaptureService.class);
+            startService(intent);
+            Log.i(TAG, "start service CaptureService");
+        }else{
+            startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
+            //Service1.mMediaProjectionManager1 = mMediaProjectionManager;
+            ((ShotApplication)getApplication()).setMediaProjectionManager(mMediaProjectionManager);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_MEDIA_PROJECTION) {
+            if (resultCode != Activity.RESULT_OK) {
+                return;
+            }else if(data != null && resultCode != 0){
+                Log.i(TAG, "user agree the application to capture screen");
+                //Service1.mResultCode = resultCode;
+                //Service1.mResultData = data;
+                result = resultCode;
+                intent = data;
+                ((ShotApplication)getApplication()).setResult(resultCode);
+                ((ShotApplication)getApplication()).setIntent(data);
+                Intent intent = new Intent(getApplicationContext(), CaptureService.class);
+                startService(intent);
+                Log.i(TAG, "start service Service1");
+
+//                finish();
+            }
+        }
     }
 
     @Override
@@ -151,7 +208,4 @@ public class ListActivity extends BaseActivity {
 
         transaction.commit();
     }
-
-
-
 }

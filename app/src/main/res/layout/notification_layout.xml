@@ -3,7 +3,7 @@
     android:id="@+id/ll_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="120dp"
     android:background="#ffffff"
     android:gravity="center_vertical"
     android:orientation="horizontal"
@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/notification_img"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:src="@mipmap/myphoto"/>
 
     <LinearLayout
@@ -40,37 +40,30 @@
 
     <Button
         android:id="@+id/btn_put"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
-        android:background="@mipmap/ic_launcher"/>
-
-    <Button
-        android:id="@+id/btn_edit"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
-        android:background="@mipmap/ic_launcher"/>
+        android:background="@drawable/pin_style" />
 
     <Button
         android:id="@+id/btn_capture"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
-        android:background="@mipmap/yd_image_tx"/>
+        android:background="@drawable/capture_style" />
 
     <Button
         android:id="@+id/btn_pre"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
-        android:background="@mipmap/left_arrow"/>
+        android:background="@drawable/left_style" />
 
     <Button
         android:id="@+id/btn_next"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@mipmap/right_arrow"/>
+        android:background="@drawable/right_style" />
 </LinearLayout>

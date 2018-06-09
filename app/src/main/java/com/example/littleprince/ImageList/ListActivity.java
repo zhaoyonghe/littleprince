@@ -107,7 +107,6 @@ public class ListActivity extends BaseActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        Log.d("fuck","eat fuck");
         if (featureId== Window.FEATURE_ACTION_BAR&& menu!=null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
                 try {

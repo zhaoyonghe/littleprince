@@ -113,22 +113,34 @@ public class ImagesFragment extends Fragment {
         if (cur != null) {
             if (cur.moveToFirst()) {
                 while (!cur.isAfterLast()) {
-                    Log.d("", "===========================================================");
-                    Log.d("DISPLAY_NAME", cur.getString(0));
-                    Log.d("DATA", cur.getString(1));
-                    Log.d("DATE_TAKEN", cur.getString(2));
-                    Log.d("SIZE", String.valueOf(cur.getLong(3)));
-                    Log.d("HEIGHT", String.valueOf(cur.getLong(4)));
-                    Log.d("WIDTH", String.valueOf(cur.getLong(5)));
-                    images.add(new ImageItem(cur.getString(0), cur.getString(1), cur.getString(2), cur.getLong(3),cur.getInt(4),cur.getInt(5)));
-                    Log.d("title", images.get(images.size() - 1).getHeader());
-                    Log.d("headerid", Integer.toString(images.get(images.size() - 1).getHeaderId()));
-                    Log.d("", "===========================================================");
-                    cur.moveToNext();
+                    try {
+                        Log.d("", "===========================================================");
+                        Log.d("DISPLAY_NAME", cur.getString(0));
+                        Log.d("DATA", cur.getString(1));
+                        Log.d("BEFORE BUG", "BUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUG");
+                        //Log.d("DATE_TAKEN", cur.getString(2));
+                        Log.d(" BUG", "BUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUG");
+                        Log.d("SIZE", String.valueOf(cur.getLong(3)));
+                        Log.d("HEIGHT", String.valueOf(cur.getLong(4)));
+                        Log.d("WIDTH", String.valueOf(cur.getLong(5)));
+                        //if(cur.getString(0)!=null&&cur.getString(1)!=null&&cur.getString(2)!=null&&cur.getString(3)!=null&&cur.getString(4)!=null&&cur.getString(5)!=null){
+                        images.add(new ImageItem(cur.getString(0), cur.getString(1), cur.getString(2), cur.getLong(3),cur.getInt(4),cur.getInt(5)));
+                        //}
+
+                        Log.d("title", images.get(images.size() - 1).getHeader());
+                        Log.d("headerid", Integer.toString(images.get(images.size() - 1).getHeaderId()));
+                        Log.d("", "===========================================================");
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }finally {
+                        cur.moveToNext();
+                    }
                 }
             }
             cur.close();
         }
+
+
 
         //StickyGridHeadersGridView
         GridView imagelist = v.findViewById(R.id.imagelist);

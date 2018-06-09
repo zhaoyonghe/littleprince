@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -23,6 +24,7 @@ import android.widget.RemoteViews;
 
 
 import com.example.littleprince.BaseActivity;
+import com.example.littleprince.Capture.CaptureService;
 import com.example.littleprince.ImageList.ImageItem;
 import com.example.littleprince.ImageList.ListActivity;
 import com.example.littleprince.R;
@@ -42,27 +44,27 @@ public class MyNotificationManager {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void initNotificationChannel(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-//
-//        notificationManager.createNotificationChannelGroup(new NotificationChannelGroup("a", "a"));
-//
-//        NotificationChannel channel = new NotificationChannel("1",
-//                "Channel1", NotificationManager.IMPORTANCE_DEFAULT);
-//        channel.enableLights(true);
-//        channel.setLightColor(Color.GREEN);
-//        channel.setShowBadge(true);
-//
-//        notificationManager.createNotificationChannel(channel);
-//
-//        NotificationChannel channel2 = new NotificationChannel("2",
-//                "Channel2", NotificationManager.IMPORTANCE_DEFAULT);
-//        channel2.enableLights(true);
-//        channel2.setLightColor(Color.RED);
-//        channel2.setGroup("a");
-//        notificationManager.createNotificationChannel(channel2);
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public static void initNotificationChannel(Context context) {
+//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+////
+////        notificationManager.createNotificationChannelGroup(new NotificationChannelGroup("a", "a"));
+////
+////        NotificationChannel channel = new NotificationChannel("1",
+////                "Channel1", NotificationManager.IMPORTANCE_DEFAULT);
+////        channel.enableLights(true);
+////        channel.setLightColor(Color.GREEN);
+////        channel.setShowBadge(true);
+////
+////        notificationManager.createNotificationChannel(channel);
+////
+////        NotificationChannel channel2 = new NotificationChannel("2",
+////                "Channel2", NotificationManager.IMPORTANCE_DEFAULT);
+////        channel2.enableLights(true);
+////        channel2.setLightColor(Color.RED);
+////        channel2.setGroup("a");
+////        notificationManager.createNotificationChannel(channel2);
+//    }
 
     public static void showChannel1Notification(Context context) {
         int notificationId = 0x1234;
@@ -94,10 +96,12 @@ public class MyNotificationManager {
         PendingIntent leftIntent = PendingIntent.getBroadcast(context,1,new Intent("left"), PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent jmpIntent = PendingIntent.getActivity(context, 1, new Intent(context, ListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent putIntent = PendingIntent.getBroadcast(context, 1, new Intent("put"), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent captureIntent = PendingIntent.getBroadcast(context, 1, new Intent("capture"), PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.btn_next, rightIntent);//点击的id，点击事件
         views.setOnClickPendingIntent(R.id.btn_pre, leftIntent);
         views.setOnClickPendingIntent(R.id.notification_img, jmpIntent);
         views.setOnClickPendingIntent(R.id.btn_put, putIntent);
+        views.setOnClickPendingIntent(R.id.btn_capture, captureIntent);
         return views;
     }
     public static void showChannel2CustomNotification(Context context) {

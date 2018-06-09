@@ -32,18 +32,28 @@ public class ImageItem implements Serializable {
     public ImageItem(String name, String path, String imageTaken, long imageSize,int height,int width) {
         this.name = name;
         this.path = path;
-        this.imageTaken = imageTaken;
+        this.imageTaken=imageTaken;
         this.imageSize = imageSize;
         this.height=height;
         this.width=width;
 
+        String tempHeader="未知时间";
         //设置日期形态
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            tempHeader = sdf.format(Long.parseLong(imageTaken)).split(" ")[0];
 
-        this.header = sdf.format(Long.parseLong(imageTaken)).split(" ")[0];
-        this.headerId = header.hashCode();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            this.header = tempHeader;
+            this.headerId = this.header.hashCode();
+        }
+
+
+
+
     }
-
 
     public String getName() {
         return name;

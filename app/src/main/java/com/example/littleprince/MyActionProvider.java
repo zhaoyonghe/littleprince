@@ -58,6 +58,13 @@ public class MyActionProvider extends ActionProvider {
             });
         }
 
+        subMenu.add("云相册").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return false;
+            }
+        });
+
         super.onPrepareSubMenu(subMenu);
     }
 

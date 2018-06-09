@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
-        android:background="#3F51B5">
+        android:background="#48597F">
 
         <ImageView
             android:id="@+id/setting_back_btn"

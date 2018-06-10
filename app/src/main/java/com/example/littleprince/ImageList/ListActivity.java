@@ -173,17 +173,11 @@ public class ListActivity extends BaseActivity {
 
     public void refresh(){
         //在主界面显示ImagesFragment
-        ImagesFragment imagesfragment = new ImagesFragment();
-
-        imagesfragment.bucketName=curBucket;
-
-        curBucket=imagesfragment.bucketName;
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(android.R.id.content, imagesfragment);
-
-        transaction.commit();
+        if (curBucket=="云相册"){
+            refreshcloud();
+        }else{
+            refresh(curBucket);
+        }
     }
 
     public void refresh(String bucketName){
@@ -199,5 +193,19 @@ public class ListActivity extends BaseActivity {
         transaction.replace(android.R.id.content, imagesfragment);
 
         transaction.commit();
+    }
+
+    public void refreshcloud(){
+        //在主界面显示CloudImagesFragment
+        CloudImagesFragment cloudImagesFragment=new CloudImagesFragment();
+
+        curBucket="云相册";
+
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(android.R.id.content,cloudImagesFragment);
+
+        transaction.commit();
+
     }
 }

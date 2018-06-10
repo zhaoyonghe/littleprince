@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,8 +33,6 @@ public class ImagesFragment extends Fragment {
     //相册名
     public String bucketName = "Screenshots";
     //final private Handler handler=new Handler();
-
-
 
     /**
      * 1、onAttach(): 当该Fragment被添加到Activity时被回调。该方法只会被调用一次；

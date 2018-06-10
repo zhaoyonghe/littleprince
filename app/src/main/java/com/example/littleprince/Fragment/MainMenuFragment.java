@@ -39,7 +39,8 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     private View rotateBtn;// 旋转按钮
     private View mTextBtn;//文字型贴图添加
     private View mPaintBtn;//编辑按钮
-    private View mShareBtn;//贴图按钮
+    private View mShareBtn;//分享按钮
+    private View mUploadBtn;//上传按钮
     protected static ImageItem selectImage;
     protected SaveImageTask mySaveImageTask;
 
@@ -70,20 +71,22 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
 //TODO
         System.out.println("ONCrEATEE======="+selectImage);
 //        stickerBtn = mainView.findViewById(R.id.btn_stickers);
-//        fliterBtn = mainView.findViewById(R.id.btn_filter);
         cropBtn = mainView.findViewById(R.id.btn_crop);
         rotateBtn = mainView.findViewById(R.id.btn_rotate);
         mTextBtn = mainView.findViewById(R.id.btn_text);
         mPaintBtn = mainView.findViewById(R.id.btn_paint);
         mShareBtn = mainView.findViewById(R.id.btn_share);
+        mUploadBtn = mainView.findViewById(R.id.btn_upload);
+
 
 //        stickerBtn.setOnClickListener(this);
-//        fliterBtn.setOnClickListener(this);
         cropBtn.setOnClickListener(this);
         rotateBtn.setOnClickListener(this);
         mTextBtn.setOnClickListener(this);
         mPaintBtn.setOnClickListener(this);
         mShareBtn.setOnClickListener(this);
+        mUploadBtn.setOnClickListener(this);
+
     }
 
     @Override
@@ -110,9 +113,9 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
         else if (v == mShareBtn) {
             onShareClick();
         }
-//        else if (v == fliterBtn) {
-//            onFilterClick();
-//        }
+        else if (v == mUploadBtn) {
+            onUpLoadClick();
+        }
 //        else if(v == mBeautyBtn){
 //            onBeautyClick();
 //        }
@@ -176,6 +179,11 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
         }
 
     }
+
+    private  void onUpLoadClick(){
+        //TODO 球王加上传函数
+    }
+
     private void shareAction(String savePath){
         Intent imageIntent = new Intent(Intent.ACTION_SEND);
         imageIntent.setType("image/jpeg");

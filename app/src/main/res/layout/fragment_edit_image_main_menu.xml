@@ -76,6 +76,19 @@
             android:textColor="#FFF"
             android:textSize="12sp"/>
 
+        <TextView
+            android:id="@+id/btn_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="25dp"
+            android:drawableTop="@mipmap/upload_white_30"
+            android:gravity="center"
+            android:text="上传"
+            android:textColor="#FFF"
+            android:textSize="12sp"/>
+
     </LinearLayout>
 </HorizontalScrollView>
 

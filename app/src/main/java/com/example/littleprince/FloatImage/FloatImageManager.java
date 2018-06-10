@@ -6,6 +6,7 @@ import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,63 +36,6 @@ public class FloatImageManager {
     private boolean isFloatImageShowing=false;
 
     /**
-     * 初始化悬浮图像的规格参数
-     * @param context
-     * @return
-     */
-    private FloatImageParams initFloatImageParams(Context context){
-        FloatImageParams params=new FloatImageParams();
-        int screenWidth = FloatImageUtil.getScreenWidth(context);
-        int screenHeight = FloatImageUtil.getScreenHeight(context);
-        int statusBarHeight = FloatImageUtil.getStatusBarHeight(context);
-        //根据实际宽高和设计稿尺寸比例适应。
-        int marginBottom = FloatImageUtil.dip2px(context, 150);
-//        if (float_window_type == FW_TYPE_ROOT_VIEW) {
-//            marginBottom += statusBarHeight;
-//        }
-        //设置窗口大小，已view、视频大小做调整
-//        int winWidth = LastWindowInfo.getInstance().getWidth();
-//        int winHeight = LastWindowInfo.getInstance().getHeight();
-        int margin = FloatImageUtil.dip2px(context, 15);
-        int width = 30;
-//        if (winWidth <= winHeight) {
-//            //竖屏比例
-//            width = (int) (screenWidth * 1.0f * 1 / 3) + margin;
-//        } else {//横屏比例
-//            width = (int) (screenWidth * 1.0f / 2) + margin;
-//        }
-        float ratio = 1.5f;
-        int height = (int) (width * ratio);
-
-        //如果上次的位置不为null，则用上次的位置
-//        FloatViewParams lastParams = livePlayerWrapper.getLastParams();
-//        if (lastParams != null) {
-//            params.width = lastParams.width;
-//            params.height = lastParams.height;
-//            params.x = lastParams.x;
-//            params.y = lastParams.y;
-//            params.contentWidth = lastParams.contentWidth;
-//        } else {
-            params.width = width;
-            params.height = height;
-            params.x = screenWidth - width;
-            params.y = screenHeight - height - marginBottom;
-            params.contentWidth = width;
-//        }
-
-        params.screenWidth = screenWidth;
-        params.screenHeight = screenHeight;
-//        if (float_window_type == FW_TYPE_ROOT_VIEW) {
-//            params.screenHeight = screenHeight - statusBarHeight;// - actionBarHeight;
-//        }
-        params.videoViewMargin = margin;
-        params.mMaxWidth = screenWidth / 2 + margin;
-        params.mMinWidth = width;
-        params.mRatio = ratio;
-        return params;
-    }
-
-    /**
      * 初始化悬浮图像的规格参数(测试版)
      * @return
      */
@@ -112,20 +56,20 @@ public class FloatImageManager {
         floatImageParams.mRatio=1.5f;
         floatImageParams.videoViewMargin=45;
 
-
         return floatImageParams;
     }
-
 
     /**
      *
      * @param context
      */
     private void initFloatImage(Context context,ImageItem imageItem){
-        //初始化悬浮图像的规格参数
-        //
+
+        //初始化悬浮图像的规格参数，接下来进行调整
         floatImageParams=testinit(context);
         floatImageParams.imagePath=imageItem.getPath();
+
+        //有些图像无法通过cursor的方式得到高宽，必须先提取bitmap才可以
         Uri uri=Uri.parse("file://"+floatImageParams.imagePath);
         Bitmap bp=null;
         try {
@@ -134,27 +78,48 @@ public class FloatImageManager {
             e.printStackTrace();
         }
         if(imageItem.getHeight()==0||imageItem.getWidth()==0){
-            floatImageParams.height=bp.getHeight()/3;
-            floatImageParams.width=bp.getWidth()/3;
+            floatImageParams.height=bp.getHeight();
+            floatImageParams.width=bp.getWidth();
         }
         else {
-            floatImageParams.height=imageItem.getHeight()/3;
-            floatImageParams.width=imageItem.getWidth()/3;
+            floatImageParams.height=imageItem.getHeight();
+            floatImageParams.width=imageItem.getWidth();
         }
 
+        Log.d("","++++++++++++++++++");
+        Log.d("tietuzhiqian",floatImageParams.toString());
+        Log.d("","++++++++++++++++++");
+        //先设定比例
         floatImageParams.mRatio=(float)floatImageParams.height/floatImageParams.width;
 
-        if(floatImageParams.height*2>floatImageParams.screenHeight){
-            floatImageParams.height=floatImageParams.screenHeight/3;
-            floatImageParams.width=(int)(floatImageParams.height/floatImageParams.mRatio);
+        //设定最大最小宽度
+        //最小：能够放在minLevel屏幕高*minLevel屏幕宽中的最大图片
+        //最小：能够放在maxLevel屏幕高*maxLevel屏幕宽中的最大图片
+
+        final float minLevel=0.4f;
+        final float maxLevel=0.95f;
+        final float screenRatio=(float) floatImageParams.screenHeight/floatImageParams.screenWidth;
+
+        if(screenRatio>floatImageParams.mRatio){
+            //该图片比例比屏幕矮胖
+            floatImageParams.mMinWidth=(int)(minLevel*floatImageParams.screenWidth);
+            floatImageParams.mMaxWidth=(int)(maxLevel*floatImageParams.screenWidth);
+        }else{
+            //该图片比例不比屏幕矮胖
+            floatImageParams.mMinWidth=(int)(minLevel*floatImageParams.screenHeight/floatImageParams.mRatio);
+            floatImageParams.mMaxWidth=(int)(maxLevel*floatImageParams.screenHeight/floatImageParams.mRatio);
         }
-        if (floatImageParams.width*2>floatImageParams.screenWidth){
-            floatImageParams.width=floatImageParams.screenWidth/3;
-            floatImageParams.height=(int)(floatImageParams.width*floatImageParams.mRatio);
-        }
-        floatImageParams.mMinWidth=floatImageParams.width;
-        floatImageParams.mMaxWidth=floatImageParams.mMinWidth*2;
-        //
+
+        //不设这个贴图后无法立即拖动，不知道为什么
+        floatImageParams.contentWidth=floatImageParams.mMinWidth;
+        floatImageParams.width=floatImageParams.mMinWidth;
+        floatImageParams.height=(int)(floatImageParams.width*floatImageParams.mRatio);
+
+        Log.d("","++++++++++++++++++");
+        Log.d("tietu",floatImageParams.toString());
+        Log.d("","++++++++++++++++++");
+
+        //其他设置，准备贴出
         windowManager=FloatImageUtil.getWindowManager(context);
         WindowManager.LayoutParams wmParams=new WindowManager.LayoutParams();
         wmParams.packageName=context.getPackageName();

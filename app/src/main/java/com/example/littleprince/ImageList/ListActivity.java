@@ -8,28 +8,21 @@ import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.example.littleprince.AboutmeActivity;
 import com.example.littleprince.BaseActivity;
 import com.example.littleprince.Capture.CaptureService;
 import com.example.littleprince.DonateActivity;
-import com.example.littleprince.EditImageActivity;
 import com.example.littleprince.Notification.MyNotificationManager;
 import com.example.littleprince.R;
 import com.example.littleprince.SettingActivity;
 import com.example.littleprince.ShotApplication;
-import com.example.littleprince.utils.FileUtils;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
 

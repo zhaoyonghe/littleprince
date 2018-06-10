@@ -29,6 +29,15 @@ public class MyActionProvider extends ActionProvider {
     @Override
     public void onPrepareSubMenu(SubMenu subMenu) {
         subMenu.clear();
+
+        subMenu.add("云相册").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return false;
+            }
+        });
+
+
         Cursor cur = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME},null,null,
                 MediaStore.Images.Media.DATE_MODIFIED + " DESC");
@@ -57,13 +66,6 @@ public class MyActionProvider extends ActionProvider {
                 }
             });
         }
-
-        subMenu.add("云相册").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                return false;
-            }
-        });
 
         super.onPrepareSubMenu(subMenu);
     }

@@ -18,6 +18,7 @@ import com.example.littleprince.EditImageActivity;
 import com.example.littleprince.ImageList.ImageItem;
 import com.example.littleprince.R;
 import com.example.littleprince.ModuleConfig;
+import com.example.littleprince.Upload.HttpUpload;
 import com.example.littleprince.utils.BitmapUtils;
 
 import java.io.File;
@@ -182,6 +183,8 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
 
     private  void onUpLoadClick(){
         //TODO 球王加上传函数
+        //TODO 高钰洋加入是否上传提示，用户点击是执行下面的语句
+        new HttpUpload(activity.getmContext(),selectImage.getPath()).execute();
     }
 
     private void shareAction(String savePath){

@@ -80,7 +80,7 @@ public class ImagesFragment extends Fragment {
          * 参数4：替换？
          * 参数5：结果排序（order by）
          */
-        Log.d("dididi",getActivity().toString());
+
         //权限
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
@@ -153,11 +153,9 @@ public class ImagesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //和编辑功能，贴图功能衔接
-                //高钰洋
+
                 Log.d("click",view.getTag(R.id.selected_image_path).toString());
                 Log.d("very important","@@@@@@@@@@@@@@@"+String.valueOf(i)+"@@@@@@@@@@@@@@@");
-                //Log.d("very important","@@@@@@@@@@@@@@@"+String.valueOf(l)+"@@@@@@@@@@@@@@@");
-                //Log.d("very important",String.valueOf((view.getContext()).hashCode()));
 
                 //((ListActivity)view.getContext()).refresh();
                 ImageItem selectImage = images.get(i);

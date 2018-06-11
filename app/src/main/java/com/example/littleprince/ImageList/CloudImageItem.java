@@ -23,8 +23,8 @@ public class CloudImageItem implements Serializable {
         this.name = name;
         this.path = path;
         this.date = date;
-        this.header = date;
-        this.headerId = date.hashCode();
+        this.header = date.split("[A-Za-z]")[0];
+        this.headerId = this.header.hashCode();
     }
 
     public String getName() {
@@ -45,5 +45,16 @@ public class CloudImageItem implements Serializable {
 
     public int getHeaderId() {
         return headerId;
+    }
+
+    @Override
+    public String toString() {
+        return "CloudImageItem{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", date='" + date + '\'' +
+                ", header='" + header + '\'' +
+                ", headerId=" + headerId +
+                '}';
     }
 }

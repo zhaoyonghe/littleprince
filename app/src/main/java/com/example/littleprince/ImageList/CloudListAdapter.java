@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class CloudListAdapter extends BaseAdapter implements StickyGridHeadersSi
             .build();
     ProgressDialog progressDialog;
     Handler handler= new Handler();
+    int curposition=0;
 
 
     public CloudListAdapter(Context context, List<CloudImageItem> cloudimages) {
@@ -73,14 +75,18 @@ public class CloudListAdapter extends BaseAdapter implements StickyGridHeadersSi
         view = inflater.inflate(R.layout.image_item,null);
         ImageView imageView;
         imageView=((ImageView)view.findViewById(R.id.img));
+        curposition=position;
         ImageLoader.getInstance().displayImage(getItem(position).getPath(), imageView, options, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                progressDialog.setTitle("图片加载中");
-                progressDialog.setMessage("等待中......");
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                Log.d("shashis",s+String.valueOf(curposition));
+                if(curposition<5){
+                    progressDialog.setTitle("图片加载中");
+                    progressDialog.setMessage("等待中......");
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                }
             }
 
             @Override
@@ -90,6 +96,7 @@ public class CloudListAdapter extends BaseAdapter implements StickyGridHeadersSi
 
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
                 progressDialog.dismiss();
             }
 
@@ -99,13 +106,8 @@ public class CloudListAdapter extends BaseAdapter implements StickyGridHeadersSi
             }
         }, new ImageLoadingProgressListener() {
             @Override
-            public void onProgressUpdate(String s, View view, final int current, int total) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.setMessage(String.valueOf(current));
-                    }
-                });
+            public void onProgressUpdate(String s, View view, final int current, final int total) {
+                Log.d("process",String.valueOf((double)(current/total))+"::::"+String.valueOf(curposition));
             }
         });
         view.setTag(R.id.selected_image_path,getItem(position).getPath());

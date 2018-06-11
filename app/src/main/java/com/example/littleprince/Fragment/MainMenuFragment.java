@@ -1,6 +1,9 @@
 package com.example.littleprince.Fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.littleprince.BaseActivity;
 import com.example.littleprince.EditImageActivity;
+import com.example.littleprince.ImageList.CloudImagesFragment;
 import com.example.littleprince.ImageList.ImageItem;
 import com.example.littleprince.R;
 import com.example.littleprince.ModuleConfig;
@@ -27,7 +31,7 @@ import java.io.File;
 /**
  * 工具栏主菜单
  *
- * @author panyi
+ *
  */
 public class MainMenuFragment extends BaseEditFragment implements View.OnClickListener {
     public static final int INDEX = ModuleConfig.INDEX_MAIN;
@@ -44,6 +48,8 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     private View mUploadBtn;//上传按钮
     protected static ImageItem selectImage;
     protected SaveImageTask mySaveImageTask;
+    private AlertDialog.Builder builder;
+
 
     public static MainMenuFragment newInstance(ImageItem img) {
         MainMenuFragment fragment = new MainMenuFragment();
@@ -128,7 +134,7 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     /**
      * 裁剪模式
      *
-     * @author panyi
+     *
      */
     private void onCropClick() {
         activity.bottomGallery.setCurrentItem(CropFragment.INDEX);
@@ -138,7 +144,7 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     /**
      * 图片旋转模式
      *
-     * @author panyi
+     *
      */
     private void onRotateClick() {
         activity.bottomGallery.setCurrentItem(RotateFragment.INDEX);
@@ -148,7 +154,7 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     /**
      * 插入文字模式
      *
-     * @author panyi
+     *
      */
     private void onAddTextClick() {
         activity.bottomGallery.setCurrentItem(AddTextFragment.INDEX);
@@ -184,7 +190,26 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
     private  void onUpLoadClick(){
         //TODO 球王加上传函数
         //TODO 高钰洋加入是否上传提示，用户点击是执行下面的语句
-        new HttpUpload(activity.getmContext(),selectImage.getPath()).execute();
+        builder=new AlertDialog.Builder(getActivity());
+        builder.setTitle("上传");
+        builder.setMessage("是否上传");
+        //监听下方button点击事件
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                new HttpUpload(activity.getmContext(),selectImage.getPath()).execute();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) { }
+        });
+
+        //设置对话框是可取消的
+        builder.setCancelable(true);
+        AlertDialog dialog=builder.create();
+        dialog.show();
+
     }
 
     private void shareAction(String savePath){

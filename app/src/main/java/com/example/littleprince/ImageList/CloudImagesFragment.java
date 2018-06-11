@@ -1,9 +1,15 @@
 package com.example.littleprince.ImageList;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.littleprince.R;
 
@@ -20,6 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,6 +39,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
+import static com.example.littleprince.utils.FileUtils.getEmptyFile;
 
 /**
  * Created by zhaoyonghe on 2018/6/10.
@@ -45,6 +55,9 @@ public class CloudImagesFragment extends Fragment {
     final public String bucketName = "云相册";
     //云相册照片信息
     public String imageMsg;
+    private AlertDialog.Builder builder;
+    private HttpImgThread ht;
+    private ProgressDialog dialog;
 
     @Nullable
     @Override
@@ -137,8 +150,38 @@ public class CloudImagesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TODO 高钰洋加点击下载，或者实现长按下载
+                builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("下载");
+                builder.setMessage("是否下载");
+                //监听下方button点击事件
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                Toast.makeText(getActivity(),"confirm",Toast.LENGTH_SHORT).show();
+                        dialog = new ProgressDialog(getActivity());
+                        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+                        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+                        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+                        dialog.setTitle("下载");
+                        dialog.setMax(7);
+                        dialog.show();
+                        ht = new HttpImgThread("http://img.smzy.com/imges/2017/0513/20170513084727272.jpg");
+                        ht.start();
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) { }
+                });
+
+                //设置对话框是可取消的
+                builder.setCancelable(true);
+                AlertDialog dialog=builder.create();
+                dialog.show();
                 //cloudImages.get(i) 获取点击图片
                 //cloudImages.get(i).getPath() 获取点击图片存储路径
+
             }
         });
 
@@ -151,5 +194,74 @@ public class CloudImagesFragment extends Fragment {
         });
 
         return v;
+    }
+
+    public void SaveImage(Bitmap bitmap, String path){
+        File file=new File(path);
+        FileOutputStream fileOutputStream=null;
+        //文件夹不存在，则创建它
+        if(!file.exists()){
+            file.mkdir();
+        }
+        try {
+            File saveFIle = getEmptyFile(System.currentTimeMillis()+".jpg");
+            fileOutputStream=new FileOutputStream(saveFIle);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class HttpImgThread extends Thread {
+        private String url;
+        public HttpImgThread(){
+            super();
+        }
+        public HttpImgThread(String _url){
+            this.url = _url;
+        }
+        @Override
+        public void run() {
+
+            downloadImageFromCloud(url);
+            Looper.prepare();
+            Toast.makeText(getActivity(),"下载完成",Toast.LENGTH_LONG).show();
+            Looper.loop();
+
+        }
+    }
+
+    private void downloadImageFromCloud(String imageUrl){
+        System.out.println(1);
+        Looper.prepare();
+        System.out.println(2);
+        URL url;
+        dialog.incrementProgressBy(1);
+        HttpURLConnection connection=null;
+        Bitmap bitmap=null;
+        try {
+            url = new URL(imageUrl);
+            dialog.incrementProgressBy(1);
+            connection=(HttpURLConnection)url.openConnection();
+            connection.setConnectTimeout(6000); //超时设置
+            dialog.incrementProgressBy(1);
+            connection.setDoInput(true);
+            connection.setUseCaches(false); //设置不使用缓存
+            InputStream inputStream=connection.getInputStream();
+            dialog.incrementProgressBy(1);
+            bitmap= BitmapFactory.decodeStream(inputStream);
+            dialog.incrementProgressBy(1);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dialog.incrementProgressBy(1);
+        SaveImage(bitmap,"/littleprince_cloud");
+        dialog.incrementProgressBy(1);
+        dialog.dismiss();
+        Looper.loop();
+
+
     }
 }

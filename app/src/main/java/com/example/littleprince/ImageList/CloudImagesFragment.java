@@ -39,6 +39,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
+import static com.example.littleprince.utils.FileUtils.genEditFile;
 import static com.example.littleprince.utils.FileUtils.getEmptyFile;
 
 /**
@@ -148,7 +149,7 @@ public class CloudImagesFragment extends Fragment {
 
         cloudimagelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 //TODO 高钰洋加点击下载，或者实现长按下载
                 builder=new AlertDialog.Builder(getActivity());
                 builder.setTitle("下载");
@@ -165,7 +166,9 @@ public class CloudImagesFragment extends Fragment {
                         dialog.setTitle("下载");
                         dialog.setMax(7);
                         dialog.show();
-                        ht = new HttpImgThread("http://img.smzy.com/imges/2017/0513/20170513084727272.jpg");
+                        Log.d("hahaha",String.valueOf(position)+":"+cloudImages.get(position).getPath());
+                        ht = new HttpImgThread(cloudImages.get(position).getPath());
+                        //ht = new HttpImgThread("http://img.smzy.com/imges/2017/0513/20170513084727272.jpg");
                         ht.start();
 
                     }
@@ -185,13 +188,13 @@ public class CloudImagesFragment extends Fragment {
             }
         });
 
-        cloudimagelist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //TODO 长按下载?
-                return true;
-            }
-        });
+//        cloudimagelist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                //TODO 长按下载?
+//                return true;
+//            }
+//        });
 
         return v;
     }
@@ -204,7 +207,7 @@ public class CloudImagesFragment extends Fragment {
             file.mkdir();
         }
         try {
-            File saveFIle = getEmptyFile(System.currentTimeMillis()+".jpg");
+            File saveFIle = genEditFile();
             fileOutputStream=new FileOutputStream(saveFIle);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100,fileOutputStream);
             fileOutputStream.close();

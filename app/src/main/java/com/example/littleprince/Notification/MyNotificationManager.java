@@ -117,8 +117,8 @@ public class MyNotificationManager {
 
         mBuilder.setContent(views)//设置布局
                 .setOngoing(true)//设置是否常驻,true为常驻
-                .setSmallIcon(android.R.drawable.stat_notify_chat)//设置小图标
-                .setTicker("通知来了")//设置提示
+                .setSmallIcon(R.mipmap.ic_littleprince)//设置小图标
+                .setTicker("贴图小王子")//设置提示
                 .setPriority(Notification.PRIORITY_MAX)//设置优先级
                 .setWhen(System.currentTimeMillis())//设置展示时间
                 .setContentIntent(PendingIntent.getBroadcast(context,2,new Intent("action.view"),PendingIntent.FLAG_UPDATE_CURRENT));//设置视图点击事件
@@ -156,8 +156,8 @@ public class MyNotificationManager {
 
         mBuilder.setContent(views)//设置布局
                 .setOngoing(true)//设置是否常驻,true为常驻
-                .setSmallIcon(android.R.drawable.stat_notify_chat)//设置小图标
-                .setTicker("通知来了")//设置提示
+                .setSmallIcon(R.mipmap.ic_littleprince)//设置小图标
+                .setTicker("贴图小王子")//设置提示
                 .setPriority(Notification.PRIORITY_MAX)//设置优先级
                 .setWhen(System.currentTimeMillis())//设置展示时间
                 .setContentIntent(PendingIntent.getBroadcast(context,2,new Intent("action.view"),PendingIntent.FLAG_UPDATE_CURRENT));//设置视图点击事件

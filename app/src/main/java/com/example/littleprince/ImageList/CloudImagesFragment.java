@@ -66,12 +66,12 @@ public class CloudImagesFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.activity_list, null);
 
-        //获取云相册全部照片信息
+        //获取云相册全部缩略版照片信息
         Thread t = new Thread() {
             @Override
             public void run() {
                 try {
-                    String url = "http://39.106.150.248:3000/info";
+                    String url = "http://39.106.150.248:3000/smallinfo";
                     URL httpUrl = new URL(url);
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();//与服务器建立连接；
                     conn.setReadTimeout(5000);
@@ -121,15 +121,17 @@ public class CloudImagesFragment extends Fragment {
         for (int i = 0; i < jsonArray.length(); i++) {
             String n = null;
             String p = null;
+            String rp = null;
             String d = null;
             try {
                 n = jsonArray.getJSONObject(i).getString("name");
-                p = "http://39.106.150.248/littleprince/images/" + n;
+                p = "http://39.106.150.248/littleprince/smallimages/" + n;
+                rp = "http://39.106.150.248/littleprince/images/" + n;
                 d = jsonArray.getJSONObject(i).getString("time");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            cloudImages.add(new CloudImageItem(n, p, d));
+            cloudImages.add(new CloudImageItem(n, p, rp, d));
         }
 
         Collections.sort(cloudImages, new Comparator<CloudImageItem>() {

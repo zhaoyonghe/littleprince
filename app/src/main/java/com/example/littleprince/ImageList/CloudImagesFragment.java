@@ -53,7 +53,7 @@ import static com.example.littleprince.utils.FileUtils.getEmptyFile;
 public class CloudImagesFragment extends Fragment {
 
     //相册名
-    final public String bucketName = "云相册";
+    final public String bucketName = "※云相册※";
     //云相册照片信息
     public String imageMsg;
     private AlertDialog.Builder builder;

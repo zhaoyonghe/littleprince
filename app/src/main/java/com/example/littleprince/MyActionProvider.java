@@ -9,6 +9,7 @@ import android.view.SubMenu;
 import android.view.View;
 
 import com.example.littleprince.ImageList.ListActivity;
+import com.example.littleprince.Notification.MyNotificationManager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -65,6 +66,7 @@ public class MyActionProvider extends ActionProvider {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     ListActivity.getListContext().refresh(b);
+                    MyNotificationManager.showChannel2CustomNotification(getContext(),b);
                     return false;
                 }
             });

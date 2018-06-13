@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-
+/**
+ *
+ */
 public class MyActionProvider extends ActionProvider {
 
     public MyActionProvider(Context context) {
@@ -30,7 +32,7 @@ public class MyActionProvider extends ActionProvider {
     public void onPrepareSubMenu(SubMenu subMenu) {
         subMenu.clear();
 
-        subMenu.add("云相册").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        subMenu.add("※云相册※").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 ListActivity.getListContext().refreshcloud();

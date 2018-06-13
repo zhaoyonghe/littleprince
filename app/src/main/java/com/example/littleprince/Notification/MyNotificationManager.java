@@ -104,11 +104,12 @@ public class MyNotificationManager {
         views.setOnClickPendingIntent(R.id.btn_capture, captureIntent);
         return views;
     }
-    public static void showChannel2CustomNotification(Context context) {
+    public static void showChannel2CustomNotification(Context context,String BucketName) {
         int notificationId = 0x1236;
         RemoteViews views = getDefaultRemoteView(context);
 
-        images=getImages(context,"Screenshots");
+        images=getImages(context, BucketName);
+        currentindex=0;
 
         views.setImageViewUri(R.id.notification_img, Uri.parse(images.get(currentindex).getPath()));
         //按钮点击事件：
@@ -139,14 +140,21 @@ public class MyNotificationManager {
         int notificationId = 0x1236;
 
         RemoteViews views = getDefaultRemoteView(context);
-
-        images=getImages(context,"Screenshots");
+        if (images.equals(null)) {
+            images=getImages(context,ListActivity.defaultBucket);
+        }
         if (action.equals("right")) {
-            currentindex += 1;
+            if(currentindex<images.size()-1){
+                currentindex += 1;
+            }else{
+                return;
+            }
         }
         if (action.equals("left")) {
             if(currentindex > 0) {
                 currentindex -= 1;
+            }else{
+                return;
             }
         }
         views.setImageViewUri(R.id.notification_img, Uri.parse(images.get(currentindex).getPath()));
@@ -197,7 +205,7 @@ public class MyNotificationManager {
                         MediaStore.Images.Media.DATE_TAKEN, MediaStore.Images.Media.SIZE,
                         MediaStore.Images.Media.HEIGHT, MediaStore.Images.Media.WIDTH},
                 MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "= ?",
-                new String[]{"Screenshots"},
+                new String[]{BucketName},
                 MediaStore.Images.Media.DATE_MODIFIED + " DESC");
 
         images=new ArrayList<>(cur.getCount());

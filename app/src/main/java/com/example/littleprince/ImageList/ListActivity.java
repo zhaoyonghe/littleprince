@@ -1,13 +1,17 @@
 package com.example.littleprince.ImageList;
 
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +28,10 @@ import com.example.littleprince.SettingActivity;
 import com.example.littleprince.ShotApplication;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 
 /**
@@ -33,7 +41,7 @@ import java.lang.reflect.Method;
 
 public class ListActivity extends BaseActivity {
 
-
+    public static String defaultBucket=new String("Screenshots");
     private static ListActivity listContext;
     private static String curBucket;
 
@@ -58,6 +66,9 @@ public class ListActivity extends BaseActivity {
 
         listContext=this;
 
+        //设置默认首页相册
+        setDefaultBucket();
+
         //检测图片载入框架是否导入，若没有，则导入并初始化
         checkInitImageLoader();
 
@@ -76,10 +87,8 @@ public class ListActivity extends BaseActivity {
         mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         startIntent();
 
-
-
         //通知栏
-        MyNotificationManager.showChannel2CustomNotification(getApplicationContext());
+        MyNotificationManager.showChannel2CustomNotification(getApplicationContext(),defaultBucket);
 
 
     }
@@ -173,7 +182,7 @@ public class ListActivity extends BaseActivity {
 
     public void refresh(){
         //在主界面显示ImagesFragment
-        if (curBucket=="云相册"){
+        if (curBucket=="※云相册※"){
             refreshcloud();
         }else{
             refresh(curBucket);
@@ -199,7 +208,7 @@ public class ListActivity extends BaseActivity {
         //在主界面显示CloudImagesFragment
         CloudImagesFragment cloudImagesFragment=new CloudImagesFragment();
 
-        curBucket="云相册";
+        curBucket="※云相册※";
 
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 
@@ -207,5 +216,43 @@ public class ListActivity extends BaseActivity {
 
         transaction.commit();
 
+    }
+
+    public void setDefaultBucket(){
+
+        final int PERMISSION_REQUEST_CODE = 1;
+        //权限
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) {
+
+                Log.d("permission", "permission denied to SEND_SMS - requesting it");
+                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+
+            }
+        }
+
+        Cursor cur = listContext.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME},null,null,
+                MediaStore.Images.Media.DATE_MODIFIED + " DESC");
+
+        List<String> buckets=new ArrayList<>();
+
+        if (cur != null) {
+            if (cur.moveToFirst()) {
+                while (!cur.isAfterLast()) {
+                    buckets.add(cur.getString(0));
+                    cur.moveToNext();
+                }
+            }
+            cur.close();
+        }
+
+        if (!buckets.contains(ListActivity.defaultBucket)){
+            ListActivity.defaultBucket=buckets.get(0);
+        }
     }
 }

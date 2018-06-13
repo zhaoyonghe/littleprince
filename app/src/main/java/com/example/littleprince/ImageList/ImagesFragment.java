@@ -31,7 +31,7 @@ public class ImagesFragment extends Fragment {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     //相册名
-    public String bucketName = "Screenshots";
+    public String bucketName = ListActivity.defaultBucket;
     //final private Handler handler=new Handler();
 
     /**

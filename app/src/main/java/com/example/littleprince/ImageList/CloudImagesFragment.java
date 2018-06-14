@@ -182,13 +182,13 @@ public class CloudImagesFragment extends Fragment {
             }
         });
 
-//        cloudimagelist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                //TODO 长按下载?
-//                return true;
-//            }
-//        });
+        cloudimagelist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO 长按下载?
+                return false;
+            }
+        });
 
         return v;
     }

@@ -192,7 +192,7 @@ public class MyNotificationManager {
 //
 //            if (checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
 //                    == PackageManager.PERMISSION_DENIED) {
-//                Log.d("fucking","in mynotificationmanager.java");
+//                Log.d("abcding","in mynotificationmanager.java");
 //                Log.d("permission", "permission denied to SEND_SMS - requesting it");
 //                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
 //

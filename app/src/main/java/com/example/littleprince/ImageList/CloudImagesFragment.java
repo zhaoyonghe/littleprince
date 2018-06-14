@@ -47,13 +47,13 @@ import static com.example.littleprince.utils.FileUtils.genEditFile;
 
 /**
  * 该类主要重写了onCreateView
- * 定义了绘制主界面云相册图片列表的操作
+ * 定义了绘制主界面小王子图床图片列表的操作
  */
 public class CloudImagesFragment extends Fragment {
 
     //相册名
-    final public String bucketName = "※云相册※";
-    //云相册照片信息
+    final public String bucketName = "※小王子图床※";
+    //小王子图床照片信息
     public String imageMsg;
     private AlertDialog.Builder builder;
     private HttpImgThread ht;
@@ -65,7 +65,7 @@ public class CloudImagesFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.activity_list, null);
 
-        //获取云相册全部缩略版照片信息
+        //获取小王子图床全部缩略版照片信息
         Thread t = new Thread() {
             @Override
             public void run() {

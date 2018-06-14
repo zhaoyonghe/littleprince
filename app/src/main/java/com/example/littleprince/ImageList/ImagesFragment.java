@@ -32,7 +32,7 @@ public class ImagesFragment extends Fragment {
     private static final int PERMISSION_REQUEST_CODE = 1;
     //相册名
     //public String bucketName = ListActivity.defaultBucket;
-    public String bucketName = "Screenshots";
+    public String bucketName = ListActivity.defaultBucket;
     //final private Handler handler=new Handler();
 
     /**
@@ -87,7 +87,6 @@ public class ImagesFragment extends Fragment {
 //
 //            if (checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
 //                    == PackageManager.PERMISSION_DENIED) {
-//                Log.d("fucking","in imagesfragment.java");
 //                Log.d("permission", "permission denied to SEND_SMS - requesting it");
 //                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
 //

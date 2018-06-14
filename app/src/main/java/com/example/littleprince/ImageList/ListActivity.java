@@ -86,7 +86,7 @@ public class ListActivity extends BaseActivity {
         //在主界面显示ImagesFragment
         ImagesFragment imagesfragment = new ImagesFragment();
 
-        curBucket="Screenshots";
+        curBucket=defaultBucket;
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -122,12 +122,12 @@ public class ListActivity extends BaseActivity {
         switch (requestCode) {
             case 1:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("fuck","fuck you hhhhhhhhhhhhhhh");
+                    Log.d("aaas","aaas hhhhhhhhhhhhhhh");
                 } else {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("fucking","nopermission");
+                            Log.d("abcding","nopermission");
                         }
                     });
                 }
@@ -289,7 +289,7 @@ public class ListActivity extends BaseActivity {
 
     public void refresh(){
         //在主界面显示ImagesFragment
-        if (curBucket=="※云相册※"){
+        if (curBucket=="※小王子图床※"){
             refreshcloud();
         }else{
             refresh(curBucket);
@@ -315,7 +315,7 @@ public class ListActivity extends BaseActivity {
         //在主界面显示CloudImagesFragment
         CloudImagesFragment cloudImagesFragment=new CloudImagesFragment();
 
-        curBucket="※云相册※";
+        curBucket="※小王子图床※";
 
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 

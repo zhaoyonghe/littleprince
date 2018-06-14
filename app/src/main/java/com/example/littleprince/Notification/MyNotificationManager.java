@@ -130,7 +130,7 @@ public class MyNotificationManager {
         Notification notification = mBuilder.build();
         notification.flags = Notification.FLAG_NO_CLEAR;
 
-        notification.bigContentView = views;
+
 
         notificationManager.notify(notificationId, notification);
 
@@ -175,7 +175,7 @@ public class MyNotificationManager {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         Notification notification = mBuilder.build();
         notification.flags = Notification.FLAG_NO_CLEAR;
-        notification.bigContentView = views;
+
 
         notificationManager.notify(notificationId, notification);
     }

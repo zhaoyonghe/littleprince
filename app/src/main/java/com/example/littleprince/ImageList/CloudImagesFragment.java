@@ -3,6 +3,9 @@ package com.example.littleprince.ImageList;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -56,8 +59,6 @@ public class CloudImagesFragment extends Fragment {
     //小王子图床照片信息
     public String imageMsg;
     private AlertDialog.Builder builder;
-    private HttpImgThread ht;
-    private ProgressDialog dialog;
 
     @Nullable
     @Override
@@ -154,24 +155,16 @@ public class CloudImagesFragment extends Fragment {
                 //TODO 高钰洋加点击下载，或者实现长按下载
                 builder=new AlertDialog.Builder(getActivity());
                 builder.setTitle("下载");
-                builder.setMessage("是否下载");
+                final String realPath = cloudImages.get(position).getRealPath();
+                builder.setMessage(realPath);
                 //监听下方button点击事件
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("复制到剪贴板", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                Toast.makeText(getActivity(),"confirm",Toast.LENGTH_SHORT).show();
-                        dialog = new ProgressDialog(getActivity());
-                        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
-                        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-                        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-                        dialog.setTitle("下载");
-                        dialog.setMax(7);
-                        dialog.show();
-                        Log.d("hahaha",String.valueOf(position)+":"+cloudImages.get(position).getPath());
-                        ht = new HttpImgThread(cloudImages.get(position).getPath());
-                        //ht = new HttpImgThread("http://img.smzy.com/imges/2017/0513/20170513084727272.jpg");
-                        ht.start();
-
+                        ClipboardManager cmb = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData cd = ClipData.newPlainText("url",realPath);
+                        cmb.setPrimaryClip(cd);
+                        Toast.makeText(getActivity(), "复制到剪贴板成功", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -200,72 +193,72 @@ public class CloudImagesFragment extends Fragment {
         return v;
     }
 
-    public void SaveImage(Bitmap bitmap, String path){
-        File file=new File(path);
-        FileOutputStream fileOutputStream=null;
-        //文件夹不存在，则创建它
-        if(!file.exists()){
-            file.mkdir();
-        }
-        try {
-            File saveFIle = genEditFile();
-            fileOutputStream=new FileOutputStream(saveFIle);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,fileOutputStream);
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void SaveImage(Bitmap bitmap, String path){
+//        File file=new File(path);
+//        FileOutputStream fileOutputStream=null;
+//        //文件夹不存在，则创建它
+//        if(!file.exists()){
+//            file.mkdir();
+//        }
+//        try {
+//            File saveFIle = genEditFile();
+//            fileOutputStream=new FileOutputStream(saveFIle);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,fileOutputStream);
+//            fileOutputStream.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public class HttpImgThread extends Thread {
-        private String url;
-        public HttpImgThread(){
-            super();
-        }
-        public HttpImgThread(String _url){
-            this.url = _url;
-        }
-        @Override
-        public void run() {
+//    public class HttpImgThread extends Thread {
+//        private String url;
+//        public HttpImgThread(){
+//            super();
+//        }
+//        public HttpImgThread(String _url){
+//            this.url = _url;
+//        }
+//        @Override
+//        public void run() {
+//
+//            downloadImageFromCloud(url);
+//            Looper.prepare();
+//            Toast.makeText(getActivity(),"下载完成",Toast.LENGTH_LONG).show();
+//            Looper.loop();
+//
+//        }
+//    }
 
-            downloadImageFromCloud(url);
-            Looper.prepare();
-            Toast.makeText(getActivity(),"下载完成",Toast.LENGTH_LONG).show();
-            Looper.loop();
-
-        }
-    }
-
-    private void downloadImageFromCloud(String imageUrl){
-        System.out.println(1);
-        Looper.prepare();
-        System.out.println(2);
-        URL url;
-        dialog.incrementProgressBy(1);
-        HttpURLConnection connection=null;
-        Bitmap bitmap=null;
-        try {
-            url = new URL(imageUrl);
-            dialog.incrementProgressBy(1);
-            connection=(HttpURLConnection)url.openConnection();
-            connection.setConnectTimeout(6000); //超时设置
-            dialog.incrementProgressBy(1);
-            connection.setDoInput(true);
-            connection.setUseCaches(false); //设置不使用缓存
-            InputStream inputStream=connection.getInputStream();
-            dialog.incrementProgressBy(1);
-            bitmap= BitmapFactory.decodeStream(inputStream);
-            dialog.incrementProgressBy(1);
-            inputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dialog.incrementProgressBy(1);
-        SaveImage(bitmap,"/littleprince_cloud");
-        dialog.incrementProgressBy(1);
-        dialog.dismiss();
-        Looper.loop();
-
-
-    }
+//    private void downloadImageFromCloud(String imageUrl){
+//        System.out.println(1);
+//        Looper.prepare();
+//        System.out.println(2);
+//        URL url;
+//        dialog.incrementProgressBy(1);
+//        HttpURLConnection connection=null;
+//        Bitmap bitmap=null;
+//        try {
+//            url = new URL(imageUrl);
+//            dialog.incrementProgressBy(1);
+//            connection=(HttpURLConnection)url.openConnection();
+//            connection.setConnectTimeout(6000); //超时设置
+//            dialog.incrementProgressBy(1);
+//            connection.setDoInput(true);
+//            connection.setUseCaches(false); //设置不使用缓存
+//            InputStream inputStream=connection.getInputStream();
+//            dialog.incrementProgressBy(1);
+//            bitmap= BitmapFactory.decodeStream(inputStream);
+//            dialog.incrementProgressBy(1);
+//            inputStream.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        dialog.incrementProgressBy(1);
+//        SaveImage(bitmap,"/littleprince_cloud");
+//        dialog.incrementProgressBy(1);
+//        dialog.dismiss();
+//        Looper.loop();
+//
+//
+//    }
 }

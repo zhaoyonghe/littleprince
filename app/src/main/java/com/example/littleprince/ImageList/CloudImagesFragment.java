@@ -38,9 +38,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static com.example.littleprince.utils.FileUtils.genEditFile;
-import static com.example.littleprince.utils.FileUtils.getEmptyFile;
+
 
 /**
  * Created by zhaoyonghe on 2018/6/10.

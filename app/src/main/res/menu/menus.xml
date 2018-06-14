@@ -6,17 +6,13 @@
         app:showAsAction="always"
         app:actionProviderClass="com.example.littleprince.MyActionProvider"
         android:icon="@mipmap/bucket"
-        android:title="bucket_changing"/>
+        android:title="切换相册"/>
     <item
         android:id="@+id/refresh"
         app:showAsAction="always"
         android:icon="@mipmap/refresh"
-        android:title="refresh"/>
-    <item
-        android:id="@+id/setting"
-        app:showAsAction="never"
-        android:title="设置"
-        android:icon="@mipmap/back_arrow"/>
+        android:title="刷新当前相册"/>
+
     <item
         android:id="@+id/aboutme"
         app:showAsAction="never"

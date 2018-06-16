@@ -6,8 +6,8 @@ android {
         applicationId "com.example.littleprince"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -49,4 +49,5 @@ dependencies {
     implementation files('libs/httpcore-4.4.4.jar')
     implementation files('libs/commons-logging-1.2.jar')
     implementation files('libs/httpclient-4.5.2.jar')
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
 }

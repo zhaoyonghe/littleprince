@@ -6,11 +6,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 
 import android.support.annotation.NonNull;
@@ -26,6 +28,7 @@ import com.example.littleprince.AboutmeActivity;
 import com.example.littleprince.BaseActivity;
 import com.example.littleprince.Capture.CaptureService;
 import com.example.littleprince.DonateActivity;
+import com.example.littleprince.Intro.IntroActivity;
 import com.example.littleprince.Notification.MyNotificationManager;
 import com.example.littleprince.R;
 import com.example.littleprince.SettingActivity;
@@ -65,6 +68,36 @@ public class ListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent intent = new Intent(ListActivity.this, IntroActivity.class);
+                    startActivity(intent);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("firstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+        t.start();
+
 
         listContext=this;
         //投屏权限

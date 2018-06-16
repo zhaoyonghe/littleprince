@@ -39,7 +39,7 @@
         <activity android:name=".DonateActivity"
             android:theme="@style/NoTitleTheme">
         </activity>
-
+        <activity android:name=".Intro.IntroActivity"/>
         <receiver
             android:name="com.example.littleprince.Notification.NotificationBroadcast"
             android:enabled="true">

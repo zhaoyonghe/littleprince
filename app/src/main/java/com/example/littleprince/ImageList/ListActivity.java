@@ -100,9 +100,7 @@ public class ListActivity extends BaseActivity {
 
 
         listContext=this;
-        //投屏权限
-        mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        startIntent();
+
         //设置默认首页相册
         //setDefaultBucket();
         //checkPermission();
@@ -126,6 +124,14 @@ public class ListActivity extends BaseActivity {
         transaction.replace(android.R.id.content, imagesfragment);
 
         transaction.commit();
+
+        //投屏权限
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        boolean isGetProjectionPermission = getPrefs.getBoolean("getProjectionPermission", false);
+        mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        startIntent();
+
 
 
 
@@ -237,16 +243,18 @@ public class ListActivity extends BaseActivity {
     private void startIntent(){
         if(intent != null && result != 0){
             Log.i(TAG, "user agree the application to capture screen");
-            //Service1.mResultCode = resultCode;
-            //Service1.mResultData = data;
             ((ShotApplication)getApplication()).setResult(result);
             ((ShotApplication)getApplication()).setIntent(intent);
             Intent intent = new Intent(getApplicationContext(), CaptureService.class);
             startService(intent);
             Log.i(TAG, "start service CaptureService");
         }else{
-            startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
-            //Service1.mMediaProjectionManager1 = mMediaProjectionManager;
+            SharedPreferences getPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(getBaseContext());
+            boolean isGetProjectionPermission = getPrefs.getBoolean("getProjectionPermission", false);
+            if(!isGetProjectionPermission) {
+                startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
+            }
             ((ShotApplication)getApplication()).setMediaProjectionManager(mMediaProjectionManager);
         }
     }
@@ -254,6 +262,7 @@ public class ListActivity extends BaseActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_MEDIA_PROJECTION) {
             if (resultCode != Activity.RESULT_OK) {
                 return;
@@ -269,7 +278,11 @@ public class ListActivity extends BaseActivity {
                 startService(intent);
                 Log.i(TAG, "start service Service1");
 
-//                finish();
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor e = getPrefs.edit();
+                e.putBoolean("getProjectionPermission", true);
+                e.apply();
             }
         }
     }

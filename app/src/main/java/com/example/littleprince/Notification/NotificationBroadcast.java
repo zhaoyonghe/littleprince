@@ -25,7 +25,7 @@ public class NotificationBroadcast extends BroadcastReceiver {
             MyNotificationManager.updateImage(context, "left");
         } else if (action.equals("put")) {
             collapseStatusBar(context);
-            Log.d("",String.valueOf(ListActivity.getListContext()));
+            Log.d("NotificationBroadcast",String.valueOf(ListActivity.getListContext()));
             MyNotificationManager.putImage(ListActivity.getListContext());
         }
     }

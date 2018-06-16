@@ -126,17 +126,11 @@ public class ListActivity extends BaseActivity {
         transaction.commit();
 
         //投屏权限
-        SharedPreferences getPrefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
-        boolean isGetProjectionPermission = getPrefs.getBoolean("getProjectionPermission", false);
         mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         startIntent();
 
-
-
-
         //通知栏
-        MyNotificationManager.showChannel2CustomNotification(getApplicationContext(),defaultBucket);
+        MyNotificationManager.showChannel2CustomNotification(getApplicationContext(), defaultBucket);
 
 
     }
@@ -249,12 +243,7 @@ public class ListActivity extends BaseActivity {
             startService(intent);
             Log.i(TAG, "start service CaptureService");
         }else{
-            SharedPreferences getPrefs = PreferenceManager
-                    .getDefaultSharedPreferences(getBaseContext());
-            boolean isGetProjectionPermission = getPrefs.getBoolean("getProjectionPermission", false);
-            if(!isGetProjectionPermission) {
-                startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
-            }
+            startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
             ((ShotApplication)getApplication()).setMediaProjectionManager(mMediaProjectionManager);
         }
     }
@@ -277,12 +266,6 @@ public class ListActivity extends BaseActivity {
                 Intent intent = new Intent(getApplicationContext(), CaptureService.class);
                 startService(intent);
                 Log.i(TAG, "start service Service1");
-
-                SharedPreferences getPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
-                SharedPreferences.Editor e = getPrefs.edit();
-                e.putBoolean("getProjectionPermission", true);
-                e.apply();
             }
         }
     }

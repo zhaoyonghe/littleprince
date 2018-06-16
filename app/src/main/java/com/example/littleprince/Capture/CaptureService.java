@@ -1,6 +1,7 @@
 package com.example.littleprince.Capture;
 
 import android.annotation.TargetApi;
+import android.app.ListActivity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,6 +32,7 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.littleprince.ShotApplication;
 
@@ -96,76 +98,13 @@ public class CaptureService extends Service
 
     private void createFloatView()
     {
-//        wmParams = new WindowManager.LayoutParams();
         mWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
-//        wmParams.type = LayoutParams.TYPE_PHONE;
-//        wmParams.format = PixelFormat.RGBA_8888;
-//        wmParams.flags = LayoutParams.FLAG_NOT_FOCUSABLE;
-//        wmParams.gravity = Gravity.LEFT | Gravity.TOP;
-//        wmParams.x = 0;
-//        wmParams.y = 0;
-//        wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-//        wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//        inflater = LayoutInflater.from(getApplication());
-//        mFloatLayout = (LinearLayout) inflater.inflate(R.layout.float_layout, null);
-//        mWindowManager.addView(mFloatLayout, wmParams);
-//        mFloatView = (ImageButton)mFloatLayout.findViewById(R.id.float_id);
-//
-//        mFloatLayout.measure(View.MeasureSpec.makeMeasureSpec(0,
-//                View.MeasureSpec.UNSPECIFIED), View.MeasureSpec
-//                .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//
-//        mFloatView.setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                wmParams.x = (int) event.getRawX() - mFloatView.getMeasuredWidth() / 2;
-//                wmParams.y = (int) event.getRawY() - mFloatView.getMeasuredHeight() / 2 - 25;
-//                mWindowManager.updateViewLayout(mFloatLayout, wmParams);
-//                return false;
-//            }
-//        });
-//
-//        mFloatView.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // hide the button
-//                mFloatView.setVisibility(View.INVISIBLE);
-//
-//                Handler handler1 = new Handler();
-//                handler1.postDelayed(new Runnable() {
-//                    public void run() {
-//                        //start virtual
-//                        startVirtual();
-//                    }
-//                }, 500);
-//
-//                Handler handler2 = new Handler();
-//                handler2.postDelayed(new Runnable() {
-//                    public void run() {
-//                        //capture the screen
-//                        startCapture();
-//                    }
-//                }, 1500);
-//
-//                Handler handler3 = new Handler();
-//                handler3.postDelayed(new Runnable() {
-//                    public void run() {
-//                        mFloatView.setVisibility(View.VISIBLE);
-//                        //stopVirtual();
-//                    }
-//                }, 1000);
-//            }
-//        });
-//
-//        Log.i(TAG, "created the float sphere view");
     }
 
     private void createVirtualEnvironment(){
         dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
         strDate = dateFormat.format(new java.util.Date());
-        pathImage = Environment.getExternalStorageDirectory().getPath()+"/Pictures/";
+        pathImage = Environment.getExternalStorageDirectory().getPath()+"/Pictures/Screenshots/";
         nameImage = pathImage+strDate+".png";
         mMediaProjectionManager1 = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         mWindowManager1 = (WindowManager)getApplication().getSystemService(Context.WINDOW_SERVICE);
@@ -235,6 +174,7 @@ public class CaptureService extends Service
                 if(!fileImage.exists()){
                     fileImage.createNewFile();
                     Log.i(TAG, "image file created");
+                    Toast.makeText(getApplicationContext(), "已成功截屏",  Toast.LENGTH_LONG).show();
                 }
                 FileOutputStream out = new FileOutputStream(fileImage);
                 if(out != null){
@@ -270,6 +210,8 @@ public class CaptureService extends Service
         }
         mVirtualDisplay.release();
         mVirtualDisplay = null;
+        mMediaProjection.stop();
+        mMediaProjection = null;
         Log.i(TAG,"virtual display stopped");
     }
 
@@ -300,14 +242,16 @@ public class CaptureService extends Service
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals("capture")) {
                 collapseStatusBar(context);
-
+//                startVirtual();
+//                startCapture();
+//                stopVirtual();
                 Handler handler1 = new Handler();
                 handler1.postDelayed(new Runnable() {
                     public void run() {
                         //start virtual
                         startVirtual();
                     }
-                }, 500);
+                }, 200);
 
                 Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
@@ -315,8 +259,14 @@ public class CaptureService extends Service
                         //capture the screen
                         startCapture();
                     }
-                }, 1500);
+                }, 600);
 
+                Handler handler3 = new Handler();
+                handler3.postDelayed(new Runnable() {
+                    public void run() {
+                        stopVirtual();
+                    }
+                }, 1000);
             }
         }
 

@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
-            android:text="上传您想在其他地方也想使用的图片，\n我们将为您提供图床"
+            android:text="上传您想在其他地方也想使用的图片\n我们将为您提供图床"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

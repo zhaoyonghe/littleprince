@@ -49,6 +49,7 @@
             android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
             android:text="对您的图片进行裁剪编辑以便贴图"
+            android:textAlignment="center"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
-            android:text="切换至图床相册即可获得已上传图片地址，\n并可一键复制到剪贴板"
+            android:text="切换至图床相册即可获得已上传图片地址\n并可一键复制到剪贴板"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

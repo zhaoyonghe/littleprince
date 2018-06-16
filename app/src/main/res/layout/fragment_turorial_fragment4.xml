@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
-            android:text="贴图可以悬浮在任意界面，\n并可以调整大小、随时关闭"
+            android:text="贴图可以悬浮在任意界面\n并可以调整大小、随时关闭"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

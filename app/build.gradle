@@ -49,4 +49,5 @@ dependencies {
     implementation files('libs/httpcore-4.4.4.jar')
     implementation files('libs/commons-logging-1.2.jar')
     implementation files('libs/httpclient-4.5.2.jar')
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
 }

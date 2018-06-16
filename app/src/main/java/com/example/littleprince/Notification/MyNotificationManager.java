@@ -35,6 +35,7 @@ import java.util.List;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
+
 /**
  * Created by Tian on 17/10/21.
  */
@@ -187,18 +188,19 @@ public class MyNotificationManager {
      */
     public static List<ImageItem> getImages(Context context,String BucketName){
         //权限
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//
+//            if (checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    == PackageManager.PERMISSION_DENIED) {
+//                Log.d("abcding","in mynotificationmanager.java");
+//                Log.d("permission", "permission denied to SEND_SMS - requesting it");
+//                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+//
+//                ActivityCompat.requestPermissions(ListActivity.getListContext(),permissions, PERMISSION_REQUEST_CODE);
+//
+//            }
+//        }
 
-            if (checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d("permission", "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
-                ActivityCompat.requestPermissions(ListActivity.getListContext(),permissions, PERMISSION_REQUEST_CODE);
-
-            }
-        }
 
         Cursor cur = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA,

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#48597F</color>
     <color name="colorPrimaryDark">#48597F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#009688</color>
 
     <!--悬浮窗边框-->
 

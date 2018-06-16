@@ -18,7 +18,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="25dp"
             android:gravity="center"
-            android:drawableTop="@mipmap/edit_white_30"
+            android:drawableTop="@mipmap/edit_white_48"
             android:text="涂鸦"
             android:textColor="#FFFFFF"
             android:textSize="12sp"/>
@@ -32,7 +32,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="25dp"
             android:gravity="center"
-            android:drawableTop="@mipmap/crop_white_30"
+            android:drawableTop="@mipmap/crop_white_48"
             android:text="裁剪"
             android:textColor="#FFF"
             android:textSize="12sp"/>
@@ -45,7 +45,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="25dp"
             android:gravity="center"
-            android:drawableTop="@mipmap/rotate_white_30"
+            android:drawableTop="@mipmap/rotate_white_48"
             android:text="旋转"
             android:textColor="#FFF"
             android:textSize="12sp"/>
@@ -58,7 +58,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="25dp"
             android:gravity="center"
-            android:drawableTop="@mipmap/text_white_30"
+            android:drawableTop="@mipmap/text_white_48"
             android:text="文字"
             android:textColor="#FFF"
             android:textSize="12sp"/>
@@ -70,7 +70,7 @@
             android:layout_gravity="center"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="25dp"
-            android:drawableTop="@mipmap/share_white_30"
+            android:drawableTop="@mipmap/share_white_48"
             android:gravity="center"
             android:text="分享"
             android:textColor="#FFF"
@@ -83,7 +83,7 @@
             android:layout_gravity="center"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="25dp"
-            android:drawableTop="@mipmap/upload_white_30"
+            android:drawableTop="@mipmap/upload_white_48"
             android:gravity="center"
             android:text="上传"
             android:textColor="#FFF"

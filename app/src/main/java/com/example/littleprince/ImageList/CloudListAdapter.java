@@ -41,7 +41,9 @@ public class CloudListAdapter extends BaseAdapter implements StickyGridHeadersSi
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .bitmapConfig(Bitmap.Config.RGB_565)
-            .showImageOnLoading(R.drawable.ic_screencapture)
+            .showImageOnLoading(R.mipmap.cloud_loading)
+            .showImageForEmptyUri(R.mipmap.cloud_fail)
+            .showImageOnFail(R.mipmap.cloud_fail)
             .build();
     ProgressDialog progressDialog;
     Handler handler= new Handler();

@@ -41,9 +41,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static com.example.littleprince.utils.FileUtils.genEditFile;
-import static com.example.littleprince.utils.FileUtils.getEmptyFile;
+
 
 /**
  * Created by zhaoyonghe on 2018/6/10.
@@ -51,13 +50,13 @@ import static com.example.littleprince.utils.FileUtils.getEmptyFile;
 
 /**
  * 该类主要重写了onCreateView
- * 定义了绘制主界面云相册图片列表的操作
+ * 定义了绘制主界面小王子图床图片列表的操作
  */
 public class CloudImagesFragment extends Fragment {
 
     //相册名
-    final public String bucketName = "※云相册※";
-    //云相册照片信息
+    final public String bucketName = "※小王子图床※";
+    //小王子图床照片信息
     public String imageMsg;
     private AlertDialog.Builder builder;
 
@@ -67,7 +66,7 @@ public class CloudImagesFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.activity_list, null);
 
-        //获取云相册全部缩略版照片信息
+        //获取小王子图床全部缩略版照片信息
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -183,13 +182,13 @@ public class CloudImagesFragment extends Fragment {
             }
         });
 
-//        cloudimagelist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                //TODO 长按下载?
-//                return true;
-//            }
-//        });
+        cloudimagelist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO 长按下载?
+                return false;
+            }
+        });
 
         return v;
     }

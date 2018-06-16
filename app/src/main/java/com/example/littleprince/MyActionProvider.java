@@ -33,7 +33,7 @@ public class MyActionProvider extends ActionProvider {
     public void onPrepareSubMenu(SubMenu subMenu) {
         subMenu.clear();
 
-        subMenu.add("※云相册※").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        subMenu.add("※小王子图床※").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 ListActivity.getListContext().refreshcloud();

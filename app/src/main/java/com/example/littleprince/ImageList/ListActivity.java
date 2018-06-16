@@ -14,11 +14,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.example.littleprince.AboutmeActivity;
 import com.example.littleprince.BaseActivity;
@@ -33,8 +37,6 @@ import com.example.littleprince.ShotApplication;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 
 /**
@@ -98,9 +100,18 @@ public class ListActivity extends BaseActivity {
 
 
         listContext=this;
-
+        //投屏权限
+        mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        startIntent();
         //设置默认首页相册
-        setDefaultBucket();
+        //setDefaultBucket();
+        //checkPermission();
+        //Log.d("sadfsadf","SADfsadfasdf");
+        if (isGrantExternalRW(this,1)){
+            Log.d("asdf","qiuqiunile");
+        }
+
+        defaultBucket=bu();
 
         //检测图片载入框架是否导入，若没有，则导入并初始化
         checkInitImageLoader();
@@ -108,7 +119,7 @@ public class ListActivity extends BaseActivity {
         //在主界面显示ImagesFragment
         ImagesFragment imagesfragment = new ImagesFragment();
 
-        curBucket=imagesfragment.bucketName;
+        curBucket=defaultBucket;
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -116,15 +127,111 @@ public class ListActivity extends BaseActivity {
 
         transaction.commit();
 
-        //投屏权限
-        mMediaProjectionManager = (MediaProjectionManager)getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        startIntent();
+
 
         //通知栏
         MyNotificationManager.showChannel2CustomNotification(getApplicationContext(),defaultBucket);
 
 
     }
+
+    public static boolean isGrantExternalRW(Activity activity, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            int storagePermission1 = activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            int storagePermission2 = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (storagePermission1 != PackageManager.PERMISSION_GRANTED ||
+                    storagePermission2 != PackageManager.PERMISSION_GRANTED) {
+                activity.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("aaas","aaas hhhhhhhhhhhhhhh");
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d("abcding","nopermission");
+                        }
+                    });
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public String bu(){
+
+//        //权限
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//
+//            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    == PackageManager.PERMISSION_DENIED) {
+//
+//                Log.d("permission", "permission denied to SEND_SMS - requesting it");
+//                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+//
+//                requestPermissions(permissions, 1);
+//
+//            }
+//        }
+
+        Cursor cur = this.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME},null,null,
+                MediaStore.Images.Media.DATE_MODIFIED + " DESC");
+
+        List<String> buckets=new ArrayList<>();
+
+        if (cur != null) {
+            if (cur.moveToFirst()) {
+                while (!cur.isAfterLast()) {
+                    buckets.add(cur.getString(0));
+                    cur.moveToNext();
+                }
+            }
+            cur.close();
+        }
+
+        if (buckets.contains("Screenshots")){
+            return "Screenshots";
+        } else {
+            return buckets.get(0);
+        }
+
+    }
+
+    public void setDefaultBucket(){
+
+        Cursor cur = listContext.getApplicationContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME},null,null,
+                MediaStore.Images.Media.DATE_MODIFIED + " DESC");
+
+        List<String> buckets=new ArrayList<>();
+
+        if (cur != null) {
+            if (cur.moveToFirst()) {
+                while (!cur.isAfterLast()) {
+                    buckets.add(cur.getString(0));
+                    cur.moveToNext();
+                }
+            }
+            cur.close();
+        }
+
+        if (!buckets.contains(ListActivity.defaultBucket)){
+            ListActivity.defaultBucket=buckets.get(0);
+        }
+    }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startIntent(){
@@ -189,10 +296,10 @@ public class ListActivity extends BaseActivity {
                 Intent intent2=new Intent(ListActivity.this, DonateActivity.class);
                 startActivity(intent2);
                 return true;
-            case R.id.setting:
-                Intent intent3=new Intent(ListActivity.this, SettingActivity.class);
-                startActivity(intent3);
-                return true;
+//            case R.id.setting:
+//                Intent intent3=new Intent(ListActivity.this, SettingActivity.class);
+//                startActivity(intent3);
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -215,7 +322,7 @@ public class ListActivity extends BaseActivity {
 
     public void refresh(){
         //在主界面显示ImagesFragment
-        if (curBucket=="※云相册※"){
+        if (curBucket=="※小王子图床※"){
             refreshcloud();
         }else{
             refresh(curBucket);
@@ -241,7 +348,7 @@ public class ListActivity extends BaseActivity {
         //在主界面显示CloudImagesFragment
         CloudImagesFragment cloudImagesFragment=new CloudImagesFragment();
 
-        curBucket="※云相册※";
+        curBucket="※小王子图床※";
 
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 
@@ -251,41 +358,4 @@ public class ListActivity extends BaseActivity {
 
     }
 
-    public void setDefaultBucket(){
-
-        final int PERMISSION_REQUEST_CODE = 1;
-        //权限
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d("permission", "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-
-            }
-        }
-
-        Cursor cur = listContext.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME},null,null,
-                MediaStore.Images.Media.DATE_MODIFIED + " DESC");
-
-        List<String> buckets=new ArrayList<>();
-
-        if (cur != null) {
-            if (cur.moveToFirst()) {
-                while (!cur.isAfterLast()) {
-                    buckets.add(cur.getString(0));
-                    cur.moveToNext();
-                }
-            }
-            cur.close();
-        }
-
-        if (!buckets.contains(ListActivity.defaultBucket)){
-            ListActivity.defaultBucket=buckets.get(0);
-        }
-    }
 }

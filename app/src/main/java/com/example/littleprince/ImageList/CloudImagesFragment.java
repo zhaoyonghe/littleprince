@@ -57,7 +57,7 @@ public class CloudImagesFragment extends Fragment {
     //相册名
     final public String bucketName = "※小王子图床※";
     //小王子图床照片信息
-    public String imageMsg;
+    public String imageMsg = null;
     private AlertDialog.Builder builder;
 
     @Nullable
@@ -105,41 +105,46 @@ public class CloudImagesFragment extends Fragment {
         Log.d("thread", "testtest");
         Log.d("asdfa", String.valueOf(imageMsg));
 
-        //解析JSON
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(imageMsg);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        final List<CloudImageItem> cloudImages;
 
-        final List<CloudImageItem> cloudImages = new ArrayList<CloudImageItem>(jsonArray.length());
-//        String a = "as";
-//        String b = "http://39.106.150.248/littleprince/images/IMG_20180605_111840.jpg";
-//        String c = "aaaa";
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String n = null;
-            String p = null;
-            String rp = null;
-            String d = null;
+        //如果网络连接不成功
+        if (imageMsg == null){
+            Toast.makeText(getActivity(), "请检查网络连接", Toast.LENGTH_SHORT).show();
+            cloudImages = new ArrayList<CloudImageItem>(0);
+        } else {
+            //解析JSON
+            JSONArray jsonArray = null;
             try {
-                n = jsonArray.getJSONObject(i).getString("name");
-                p = "http://39.106.150.248/littleprince/smallimages/" + n;
-                rp = "http://39.106.150.248/littleprince/images/" + n;
-                d = jsonArray.getJSONObject(i).getString("time");
+                jsonArray = new JSONArray(imageMsg);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            cloudImages.add(new CloudImageItem(n, p, rp, d));
-        }
 
-        Collections.sort(cloudImages, new Comparator<CloudImageItem>() {
-            @Override
-            public int compare(CloudImageItem c1, CloudImageItem c2) {
-                return c2.getDate().compareTo(c1.getDate());
+            cloudImages = new ArrayList<CloudImageItem>(jsonArray.length());
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String n = null;
+                String p = null;
+                String rp = null;
+                String d = null;
+                try {
+                    n = jsonArray.getJSONObject(i).getString("name");
+                    p = "http://39.106.150.248/littleprince/smallimages/" + n;
+                    rp = "http://39.106.150.248/littleprince/images/" + n;
+                    d = jsonArray.getJSONObject(i).getString("time");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                cloudImages.add(new CloudImageItem(n, p, rp, d));
             }
-        });
+
+            Collections.sort(cloudImages, new Comparator<CloudImageItem>() {
+                @Override
+                public int compare(CloudImageItem c1, CloudImageItem c2) {
+                    return c2.getDate().compareTo(c1.getDate());
+                }
+            });
+        }
 
         Log.d("list",cloudImages.toString());
 
@@ -164,7 +169,7 @@ public class CloudImagesFragment extends Fragment {
                         ClipboardManager cmb = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData cd = ClipData.newPlainText("url",realPath);
                         cmb.setPrimaryClip(cd);
-                        Toast.makeText(getActivity(), "复制到剪贴板成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "成功复制到剪贴板", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

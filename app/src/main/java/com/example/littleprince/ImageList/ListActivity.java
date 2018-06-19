@@ -105,8 +105,22 @@ public class ListActivity extends BaseActivity {
         //setDefaultBucket();
         //checkPermission();
         //Log.d("sadfsadf","SADfsadfasdf");
-        if (isGrantExternalRW(this,1)){
-            Log.d("asdf","qiuqiunile");
+//        if (isGrantExternalRW(this,1)){
+//            Log.d("asdf","qiuqiunile");
+//        }
+
+        //权限
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) {
+
+                Log.d("permission", "permission denied to SEND_SMS - requesting it");
+                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+
+                requestPermissions(permissions, 1);
+
+            }
         }
 
         defaultBucket=bu();
@@ -135,55 +149,43 @@ public class ListActivity extends BaseActivity {
 
     }
 
-    public static boolean isGrantExternalRW(Activity activity, int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//    public static boolean isGrantExternalRW(Activity activity, int requestCode) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//            int storagePermission1 = activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+//            int storagePermission2 = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//
+//            if (storagePermission1 != PackageManager.PERMISSION_GRANTED ||
+//                    storagePermission2 != PackageManager.PERMISSION_GRANTED) {
+//                activity.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-            int storagePermission1 = activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            int storagePermission2 = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-            if (storagePermission1 != PackageManager.PERMISSION_GRANTED ||
-                    storagePermission2 != PackageManager.PERMISSION_GRANTED) {
-                activity.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("aaas","aaas hhhhhhhhhhhhhhh");
-                } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d("abcding","nopermission");
-                        }
-                    });
-                }
-                break;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        switch (requestCode) {
+//            case 1:
+//                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    Log.d("aaas","aaas hhhhhhhhhhhhhhh");
+//                } else {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Log.d("abcding","nopermission");
+//                        }
+//                    });
+//                }
+//                break;
+//        }
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 
     public String bu(){
 
-//        //权限
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-//
-//            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-//                    == PackageManager.PERMISSION_DENIED) {
-//
-//                Log.d("permission", "permission denied to SEND_SMS - requesting it");
-//                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-//
-//                requestPermissions(permissions, 1);
-//
-//            }
-//        }
+
 
         Cursor cur = this.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME},null,null,

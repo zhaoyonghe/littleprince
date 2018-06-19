@@ -171,14 +171,14 @@ public class MainMenuFragment extends BaseEditFragment implements View.OnClickLi
 
 
     private void onShareClick(){
-        String savePath=activity.saveFilePath;
+        String savePath=activity.filePath;
         if(activity.getmOpTimes()==0){
             shareAction(savePath);
         }else {
             if (mySaveImageTask != null) {
                 mySaveImageTask.cancel(true);
             }
-
+            savePath = activity.saveFilePath;
             mySaveImageTask = new SaveImageTask();
             mySaveImageTask.execute(activity.getMainBitmap());
             shareAction(savePath);

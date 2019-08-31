@@ -27,6 +27,7 @@ Student ID| Name
 
 ## Brief Introduction
 - Local Picture Browsing Function
+![](https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%AF%95%E4%B8%9A%E8%AF%81%E4%B9%A6.jpg)
 - Picture-Pasting Function
 - Picture Editing and Sharing Function
 - Notification Bar

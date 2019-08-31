@@ -1,6 +1,21 @@
-# About "The Little Prince" (The Chinese introduction to this project is listed below in that English.)
+# About "The Little Prince" (The Chinese introduction to this project is listed below in that English)
 
+## Relevant Links
+ - Download the apk：
+ https://www.coolapk.com/apk/188955
+ - Source code：
+ https://github.com/zhaoyonghe/littleprince
+ - Video tutorial (in Chinese)：
+ https://v.qq.com/x/page/d0695277xij.html
+ - Source code of backend:
+ https://github.com/zhaoyonghe/littleprince-backendservice
 
+## Our Team
+Student ID| Name
+---|---
+1510193 | Yuyang Gao
+1511477 | Wenda Zhang
+1511479 | Yonghe Zhao
 
 # 贴图小王子文档
 

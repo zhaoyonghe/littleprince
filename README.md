@@ -1,4 +1,5 @@
-# Introduction to "The Little Prince" (The Chinese introduction to this project is listed below in that English)
+# Introduction to "The Little Prince" 
+(The Chinese introduction to this project is listed below that in English)
 
 ## Relevant Links
  - Download the apk：

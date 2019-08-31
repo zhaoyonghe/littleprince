@@ -1,4 +1,4 @@
-# About "The Little Prince" (The Chinese introduction to this project is listed below in that English)
+# Introduction to "The Little Prince" (The Chinese introduction to this project is listed below in that English)
 
 ## Relevant Links
  - Download the apk：
@@ -16,6 +16,13 @@ Student ID| Name
 1510193 | Yuyang Gao
 1511477 | Wenda Zhang
 1511479 | Yonghe Zhao
+
+## Brief Introduction
+- In daily life, users often need to view information by switching applications, which is very troublesome, affecting efficiency and mood.
+- The application realizes the function of suspending the picture carrying information over all applications - picture-pasting, thus avoiding the trouble of switching applications back and forth.
+- The application provides resident picture-pasting and screenshots buttons in the notification bar, enabling users to "paste" picture and screen at any time and anywhere.
+- The application provides image browsing function, easy to switch albums, and provides powerful editing and sharing functions.
+- The application provides the function of the picture bed. Users can upload pictures and get the URL of the picture in the picture bed. Users can easily open pictures through the URL and use the URL for inserting pictures on the network (such as Markdown).
 
 # 贴图小王子文档
 

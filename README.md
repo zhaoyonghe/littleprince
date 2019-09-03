@@ -61,7 +61,7 @@ Chinese introduction below.
 
 
 
-# 贴图小王子文档
+# 贴图小王子简介
 
 
 

@@ -28,8 +28,8 @@ Student ID| Name
 ## Brief Introduction
 - Local Picture Browsing Function
 <div align=center>
- <img height="150" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%9C%AC%E5%9C%B0%E6%B5%8F%E8%A7%88.jpg"/>
- <img height="150" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%9C%AC%E5%9C%B0%E6%B5%8F%E8%A7%88.jpg"/>
+ <img height="50%" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%9C%AC%E5%9C%B0%E6%B5%8F%E8%A7%88.jpg"/>
+ <img height="50%" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%9C%AC%E5%9C%B0%E6%B5%8F%E8%A7%88.jpg"/>
 </div>
 
 

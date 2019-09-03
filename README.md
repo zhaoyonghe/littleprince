@@ -26,17 +26,28 @@ Student ID| Name
 - The application provides the function of the picture bed. Users can upload pictures and get the URL of the picture in the picture bed. Users can easily open pictures through the URL and use the URL for inserting pictures on the network (such as Markdown).
 
 ## Brief Introduction
-- Local Picture Browsing Function
+- Local Picture Browsing Function. You can browse your local pictures here, switch albums and refresh current album using buttons on the top bar.
 <div align=center>
- <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%9C%AC%E5%9C%B0%E6%B5%8F%E8%A7%88.jpg"/>
  <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/%E6%9C%AC%E5%9C%B0%E6%B5%8F%E8%A7%88.jpg"/>
 </div>
 
+- Picture Editing and Uploading Function. Click on a picture and then you can enjoy our powerful picture editing function, which allows you to freely paint on the picture, crop and rotate the picture, type text on the picture and share your picture to other applications. You can also upload your picture to our cloud picture bed.
+<div align=center>
+ <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/图片编辑.jpg"/>
+</div>
 
-- Picture-Pasting Function
-- Picture Editing and Sharing Function
-- Notification Bar
+- Picture-Pasting Function. Long click a picture to paste it on the screen. You can freely move, resize and close this floating picture. Paste the picture that includes information that you will frequently check on the screen to enhance your efficiency.
 
+<div align=center>
+ <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/长按贴图.jpg"/>
+ <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/贴图效果.jpg"/>
+ <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/贴图.jpg"/>
+</div>
+
+- Notification Bar Shortcut. Get tired to open the application? You can easily find the picture you want to paste on notification bar. 
+<div align=center>
+ <img height="500px" src="https://github.com/zhaoyonghe/Readme-Images/blob/master/通知栏.jpg"/>
+</div>
 
 
 

@@ -63,7 +63,7 @@ Chinese introduction below.
 
 # 贴图小王子文档
 
-[TOC]
+
 
 ## 相关链接
  - 酷安商城链接：
